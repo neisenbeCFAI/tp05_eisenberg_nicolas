@@ -159,6 +159,56 @@
         return $response;
     });
 
+    $app->get("/api/v1/customer", function(Request $request, Response $response, $args)
+    {
+        // TO BE REPLACED BY DB INTEGRATION
+        // $data = Select * dans db
+        $data = array();
+
+        $response->getBody()->write(json_encode($data));
+
+        return $response;
+    });
+
+    $app->post("/api/v1/product", function(Request $request, Response $response, $args)
+    {
+        $body = $request->getParsedBody();
+        $ref = $body['ref'] ?? "";
+        $libelle = $body['libelle'] ?? "";
+        $prix = $body['prix'] ?? "";
+
+        $response->getBody()->write(json_encode($body));
+
+        return $response;
+    });
+
+    $app->get("/api/v1/product", function(Request $request, Response $response, $args)
+    {
+        // TO BE REPLACED BY DB INTEGRATION
+        // $data = Select * dans db
+        $data = array();
+
+        $response->getBody()->write(json_encode($data));
+
+        return $response;
+    });
+
+    $app->get("/api/v1/product/{id}", function(Request $request, Response $response, $args)
+    {
+        // TO BE REPLACED BY DB INTEGRATION
+        $ref = "";
+        $libelle = "";
+        $prix = "";
+        $data = array('ref' => $ref,
+                        'libelle' => $libelle,
+                        'prix' => $prix,
+                    );
+
+        $response->getBody()->write(json_encode($data));
+
+        return $response;
+    });
+
 
     $app->add(new Tuupola\Middleware\JwtAuthentication($options));
 
