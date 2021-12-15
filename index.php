@@ -4,7 +4,7 @@
     use Slim\Factory\AppFactory;
     use \Firebase\JWT\JWT;
     
-    require __DIR__ . '/../vendor/autoload.php';
+    require __DIR__ . '/vendor/autoload.php';
 
     function addHeaders(Response $response): Response
     {
@@ -28,7 +28,7 @@
         'algorithm' => ['HS256'],
         'secret' => JWT_SECRET,
         'path' => ['/api'],
-        'ignore' => ["/api/login", "/api/auth"],
+        'ignore' => ["/api/v1/login", "/api/v1/auth", "/api/v1/customer"],
         "error" => function ($response, $arguments) {
             $data = array("ERROR" => "Login", "Error" => "JWT invalid");
             $response = $response->withStatus(401);
@@ -124,7 +124,41 @@
         $password = $body['password'] ?? "";
 
         $response->getBody()->write(json_encode($body));
+
+        return $response;
     });
+
+    $app->get("/api/v1/customer/{id}", function(Request $request, Response $response, $args)
+    {
+        // TO BE REPLACED BY DB INTEGRATION
+        $firstName = "";
+        $lastName = "";
+        $address = "";
+        $city = "";
+        $cp = "";
+        $country = "";
+        $telephone = "";
+        $email = "";
+        $gender = "";
+        $username = "";
+        $password = "";
+        $data = array('firstname' => $firstName,
+                        'lastName' => $lastName,
+                        'address' => $address,
+                        'city' => $city,
+                        'cp' => $cp,
+                        'country' => $country,
+                        'telephone' => $telephone,
+                        'email' => $email,
+                        'gender' => $gender,
+                        'username' => $username,
+                    );
+
+        $response->getBody()->write(json_encode($data));
+
+        return $response;
+    });
+
 
     $app->add(new Tuupola\Middleware\JwtAuthentication($options));
 
